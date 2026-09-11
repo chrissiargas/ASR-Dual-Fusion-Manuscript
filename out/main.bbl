@@ -1,0 +1,212 @@
+\begin{thebibliography}{10}
+
+\bibitem{radford2022robustspeechrecognitionlargescale}
+Alec Radford, Jong~Wook Kim, Tao Xu, Greg Brockman, Christine McLeavey, and
+  Ilya Sutskever,
+\newblock ``Robust speech recognition via large-scale weak supervision,'' 2022.
+
+\bibitem{sekoyan2025canary1bv2parakeettdt06bv3efficient}
+Monica Sekoyan, Nithin~Rao Koluguri, Nune Tadevosyan, Piotr Zelasko, Travis
+  Bartley, Nikolay Karpov, Jagadeesh Balam, and Boris Ginsburg,
+\newblock ``Canary-1b-v2 & parakeet-tdt-0.6b-v3: Efficient and high-performance
+  models for multilingual asr and ast,'' 2025.
+
+\bibitem{dezuazo2025whisperlmimprovingasrmodels}
+Xabier de~Zuazo, Eva Navas, Ibon Saratxaga, and Inma~Hernáez Rioja,
+\newblock ``Whisper-lm: Improving asr models with language models for
+  low-resource languages,'' 2025.
+
+\bibitem{fong2026speechllmslowresourcescenarios}
+Seraphina Fong, Marco Matassoni, and Alessio Brutti,
+\newblock ``Speech llms in low-resource scenarios: Data volume requirements and
+  the impact of pretraining on high-resource languages,'' 2026.
+
+\bibitem{chen2024bestow}
+Zhehuai Chen, He~Huang, Oleksii Hrinchuk, Krishna~C. Puvvada, Nithin~Rao
+  Koluguri, Piotr Zelasko, Jagadeesh Balam, and Boris Ginsburg,
+\newblock ``Bestow: Efficient and streamable speech language model with the
+  best of two worlds in gpt and t5,'' 2024.
+
+\bibitem{ma2024embarrassinglysimpleapproachllm}
+Ziyang Ma, Guanrou Yang, Yifan Yang, Zhifu Gao, Jiaming Wang, Zhihao Du, Fan
+  Yu, Qian Chen, Siqi Zheng, Shiliang Zhang, and Xie Chen,
+\newblock ``An embarrassingly simple approach for llm with strong asr
+  capacity,'' 2024.
+
+\bibitem{tang2024salmonngenerichearingabilities}
+Changli Tang, Wenyi Yu, Guangzhi Sun, Xianzhao Chen, Tian Tan, Wei Li, Lu~Lu,
+  Zejun Ma, and Chao Zhang,
+\newblock ``Salmonn: Towards generic hearing abilities for large language
+  models,'' 2024.
+
+\bibitem{kumar2025performanceevaluationslamasrgood}
+Shashi Kumar, Iuliia Thorbecke, Sergio Burdisso, Esaú Villatoro-Tello,
+  Manjunath~K E, Kadri Hacioğlu, Pradeep Rangappa, Petr Motlicek, Aravind
+  Ganapathiraju, and Andreas Stolcke,
+\newblock ``Performance evaluation of slam-asr: The good, the bad, the ugly,
+  and the way forward,'' 2025.
+
+\bibitem{Radhakrishnan_2023}
+Srijith Radhakrishnan, Chao-Han Yang, Sumeer Khan, Rohit Kumar, Narsis Kiani,
+  David Gomez-Cabrero, and Jesper Tegnér,
+\newblock ``Whispering llama: A cross-modal generative error correction
+  framework for speech recognition,''
+\newblock in {\em Proceedings of the 2023 Conference on Empirical Methods in
+  Natural Language Processing}. 2023, p. 10007–10016, Association for
+  Computational Linguistics.
+
+\bibitem{yu2023connectingspeechencoderlarge}
+Wenyi Yu, Changli Tang, Guangzhi Sun, Xianzhao Chen, Tian Tan, Wei Li, Lu~Lu,
+  Zejun Ma, and Chao Zhang,
+\newblock ``Connecting speech encoder and large language model for asr,'' 2023.
+
+\bibitem{rouditchenko2024whisperflamingointegratingvisualfeatures}
+Andrew Rouditchenko, Yuan Gong, Samuel Thomas, Leonid Karlinsky, Hilde Kuehne,
+  Rogerio Feris, and James Glass,
+\newblock ``Whisper-flamingo: Integrating visual features into whisper for
+  audio-visual speech recognition and translation,'' 2024.
+
+\bibitem{damianos2025voxkrikriunifyingspeechlanguage}
+Dimitrios Damianos, Leon Voukoutis, Georgios Paraskevopoulos, and Vassilis
+  Katsouros,
+\newblock ``Vox-krikri: Unifying speech and language through continuous
+  fusion,'' 2025.
+
+\bibitem{yang2021superbspeechprocessinguniversal}
+Shu wen Yang, Po-Han Chi, Yung-Sung Chuang, Cheng-I~Jeff Lai, Kushal Lakhotia,
+  Yist~Y. Lin, Andy~T. Liu, Jiatong Shi, Xuankai Chang, Guan-Ting Lin,
+  Tzu-Hsien Huang, Wei-Cheng Tseng, Ko~tik Lee, Da-Rong Liu, Zili Huang, Shuyan
+  Dong, Shang-Wen Li, Shinji Watanabe, Abdelrahman Mohamed, and Hung yi~Lee,
+\newblock ``Superb: Speech processing universal performance benchmark,'' 2021.
+
+\bibitem{chiu24_interspeech}
+Sheng-Chieh Chiu, Chia-Hua Wu, Jih-Kang Hsieh, Yu~Tsao, and Hsin-Min Wang,
+\newblock ``{Learnable Layer Selection and Model Fusion for Speech
+  Self-Supervised Learning Models},''
+\newblock in {\em {Interspeech 2024}}, 2024, pp. 3914--3918.
+
+\bibitem{tripathi2025listenliketeachermitigating}
+Kumud Tripathi, Aditya~Srinivas Menon, Aman Gaurav, Raj~Prakash Gohil, and
+  Pankaj Wasnik,
+\newblock ``Listen like a teacher: Mitigating whisper hallucinations using
+  adaptive layer attention and knowledge distillation,'' 2025.
+
+\bibitem{hsu2025taslatextalignedspeechtokens}
+Ming-Hao Hsu, Liang-Hsuan Tseng, Hung yi~Lee, and Zhizheng Wu,
+\newblock ``Tasla: Text-aligned speech tokens with multiple
+  layer-aggregation,'' 2025.
+
+\bibitem{jia2026decodingperturbationmitigatingmllm}
+Sihang Jia, Shuliang Liu, Songbo Yang, Yibo Yan, Xin Zou, and Xuming Hu,
+\newblock ``Decoding by perturbation: Mitigating mllm hallucinations via
+  dynamic textual perturbation,'' 2026.
+
+\bibitem{alayrac2022flamingovisuallanguagemodel}
+Jean-Baptiste Alayrac, Jeff Donahue, Pauline Luc, Antoine Miech, Iain Barr,
+  Yana Hasson, Karel Lenc, Arthur Mensch, Katie Millican, Malcolm Reynolds,
+  Roman Ring, Eliza Rutherford, Serkan Cabi, Tengda Han, Zhitao Gong, Sina
+  Samangooei, Marianne Monteiro, Jacob Menick, Sebastian Borgeaud, Andrew
+  Brock, Aida Nematzadeh, Sahand Sharifzadeh, Mikolaj Binkowski, Ricardo
+  Barreira, Oriol Vinyals, Andrew Zisserman, and Karen Simonyan,
+\newblock ``Flamingo: a visual language model for few-shot learning,'' 2022.
+
+\bibitem{roussis2025krikriadvancingopenlarge}
+Dimitris Roussis, Leon Voukoutis, Georgios Paraskevopoulos, Sokratis
+  Sofianopoulos, Prokopis Prokopidis, Vassilis Papavasileiou, Athanasios
+  Katsamanis, Stelios Piperidis, and Vassilis Katsouros,
+\newblock ``Krikri: Advancing open large language models for greek,'' 2025.
+
+\bibitem{csibi2026rackaefficienthungarianllm}
+Zsolt Csibi, Bence~György Gortka, Natabara Gyöngyössy, Kornél Nagy,
+  Dávid~Márk Nemeskey, Martin Sallai, András Simonyi, András~Márk
+  Szekeres, and Gábor Palkó,
+\newblock ``Racka: Efficient hungarian llm adaptation on academic
+  infrastructure,'' 2026.
+
+\bibitem{loshchilov2019decoupledweightdecayregularization}
+Ilya Loshchilov and Frank Hutter,
+\newblock ``Decoupled weight decay regularization,''
+\newblock in {\em International Conference on Learning Representations (ICLR)},
+  2019.
+
+\bibitem{hu2021loralowrankadaptation}
+Edward~J. Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean
+  Wang, Lu~Wang, and Weizhu Chen,
+\newblock ``Lora: Low-rank adaptation of large language models,'' 2021.
+
+\bibitem{dettmers2023qloraefficientfinetuningquantizedllms}
+Tim Dettmers, Artidoro Pagnoni, Ari Holtzman, and Luke Zettlemoyer,
+\newblock ``Qlora: Efficient finetuning of quantized llms,'' 2023.
+
+\bibitem{ardila2020commonvoice}
+Rosana Ardila, Megan Branson, Kelly Davis, Michael Kohler, Josh Meyer, Michael
+  Henretty, Reuben Morais, Lindsay Saunders, Francis Tyers, and Gregor Weber,
+\newblock ``Common voice: A massively-multilingual speech corpus,''
+\newblock in {\em Proceedings of the 12th Language Resources and Evaluation
+  Conference (LREC 2020)}, Marseille, France, May 2020, pp. 4218--4222,
+  European Language Resources Association.
+
+\bibitem{conneau2022fleurs}
+Alexis Conneau, Min Ma, Simran Khanuja, Yu~Zhang, Vera Axelrod, Siddharth
+  Dalmia, Jason Riesa, Clara Rivera, and Ankur Bapna,
+\newblock ``Fleurs: Few-shot learning evaluation of universal representations
+  of speech,'' 2022,
+\newblock IEEE SLT 2022 (Best Paper).
+
+\bibitem{paraskevopoulos2023hparl}
+Georgios Paraskevopoulos, Theodoros Kouzelis, Georgios Rouvalis, Athanasios
+  Katsamanis, Vassilis Katsouros, and Alexandros Potamianos,
+\newblock ``Sample-efficient unsupervised domain adaptation of speech
+  recognition systems: A case study for modern greek,'' 2022,
+\newblock Introduces the HParl 120-hour Hellenic Parliament speech corpus.
+
+\bibitem{salesky2021mtedx}
+Elizabeth Salesky, Matthew Wiesner, Jacob Bremerman, Roldano Cattoni, Matteo
+  Negri, Marco Turchi, Douglas~W. Oard, and Matt Post,
+\newblock ``The multilingual tedx corpus for speech recognition and
+  translation,''
+\newblock in {\em Proceedings of Interspeech 2021}, 2021.
+
+\bibitem{digalakis2003logotypographia}
+Vassilios Digalakis, Dimitrios Oikonomidis, D.~Pratsolis, N.~Tsourakis,
+  C.~Vosnidis, N.~Chatzichrisafis, and V.~Diakoloukas,
+\newblock ``Large vocabulary continuous speech recognition in greek: Corpus and
+  an automatic dictation system,''
+\newblock in {\em Proceedings of the 8th European Conference on Speech
+  Communication and Technology (Eurospeech 2003)}, 2003, pp. 1565--1568.
+
+\bibitem{lee2024speechmassive}
+Beomseok Lee, Ioan Calapodescu, Marco Gaido, Matteo Negri, and Laurent
+  Besacier,
+\newblock ``{Speech-MASSIVE: A Multilingual Speech Dataset for SLU and
+  Beyond},''
+\newblock in {\em Proc. Interspeech 2024}, 2024.
+
+\bibitem{wang2021voxpopuli}
+Changhan Wang, Morgane Riviere, Ann Lee, Anne Wu, Chaitanya Talnikar, Daniel
+  Haziza, Mary Williamson, Juan Pino, and Emmanuel Dupoux,
+\newblock ``Voxpopuli: A large-scale multilingual speech corpus for
+  representation learning, semi-supervised learning and interpretation,''
+\newblock in {\em Proceedings of the 59th Annual Meeting of the Association for
+  Computational Linguistics and the 11th International Joint Conference on
+  Natural Language Processing (Volume 1: Long Papers)}, Online, Aug. 2021, pp.
+  993--1003, Association for Computational Linguistics.
+
+\bibitem{li2023yodas}
+Xinjian Li, Shinnosuke Takamichi, Takaaki Saeki, William Chen, Sayaka Shiota,
+  and Shinji Watanabe,
+\newblock ``Yodas: Youtube-oriented dataset for audio and speech,''
+\newblock in {\em 2023 IEEE Automatic Speech Recognition and Understanding
+  Workshop (ASRU)}. IEEE, 2023, pp. 1--8.
+
+\bibitem{park2019specaugment}
+Daniel~S. Park, William Chan, Yu~Zhang, Chung-Cheng Chiu, Barret Zoph, Ekin~D.
+  Cubuk, and Quoc~V. Le,
+\newblock ``Specaugment: A simple data augmentation method for automatic speech
+  recognition,'' 2019.
+
+\bibitem{trendency2024whisperlargev3hu}
+{Trendency},
+\newblock ``whisper-large-v3-hu (trendency),'' Hugging Face model card, 2024.
+
+\end{thebibliography}
