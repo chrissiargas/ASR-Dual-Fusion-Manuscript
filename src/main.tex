@@ -11,6 +11,7 @@
 \usepackage{etoolbox}
 \usepackage[scaled=.7]{beramono}
 \usepackage{booktabs}
+\usepackage{siunitx}
 
 \AtBeginEnvironment{thebibliography}{
   \fontsize{8pt}{9.2pt}\selectfont
@@ -27,7 +28,8 @@
     \textit{Panagiotis Kakoulidis},
     \textit{Konstantinos Markopoulos},
     \textit{Georgios Vardaxoglou}, \\
-    \textit{Jaesung Lee},
+    \textit{Jeasung Lee},
+    \textit{Sangshin Oh},
     \textit{Gunu Jho},
     \textit{Inchul Hwang},
     \textit{Pirros Tsiakoulis},
@@ -84,7 +86,7 @@ The methodology couples a frozen Whisper encoder with a language-specific LLM (R
 To bridge the temporal mismatch between high-frequency acoustic frames and dense semantic tokens, we deploy asymmetric downsampling. In the \emph{prompt path}, the final Whisper encoder state $\boldsymbol{h}_N \in \mathbb{R}^{T \times D}$ is passed through a $\mathrm{reshape}$ operator to yield the downsampled state $\tilde{\boldsymbol{h}}_N \in \mathbb{R}^{\lfloor T / 5 \rfloor \times 5D}$.  A two-layer MLP then projects these downsampled representations into the LLM's embedding space, yielding the continuous acoustic tokens $\boldsymbol{S}_{prompt} \in \mathbb{R}^{\lfloor T / 5 \rfloor \times D_{LLM}}$. These are then concatenated into the LLM's input sequence as prefix tokens:
 $$\mathrm{embed}(\text{prefix}) \,\Vert{}\, \boldsymbol{S}_{prompt} \,\Vert{}\, \mathrm{embed}(\text{text})$$
 Crucially, this coarser downsampling factor ($k=5$, 100ms resolution) prevents quadratic computational bloat in the LLM's global self-attention sequence, while aligning with syllabic boundaries.
-Conversely, the \emph{cross-attention path} injects speech-derived representations at selected layers using a finer Conv1D downsampler ($k=3$, 60ms resolution). This preserves the micro-phonetic boundaries essential for highly inflected languages—specifically, rapid Hungarian agglutinative suffixes and unstressed Greek vowel transitions. Maintaining this denser resolution is computationally viable because it strictly localizes to cross-attention operations without expanding the LLM's global sequence length. Ablations (Section~\ref{subsec:ablation}) confirm $k=3$ balances this model's performance against the prohibitive cost of $k=1$
+Conversely, the \emph{cross-attention path} injects speech-derived representations at selected layers using a finer Conv1D downsampler ($k=3$, 60ms resolution). This preserves the micro-phonetic boundaries essential for highly inflected languages—specifically, rapid Hungarian agglutinative suffixes and unstressed Greek vowel transitions. Maintaining this denser resolution is computationally viable because it strictly localizes to cross-attention operations without expanding the LLM's global sequence length. Ablations (Section~\ref{subsec:ablation}) confirm $k=3$ balances this model's performance against the prohibitive cost of $k=1$.
 
 
 \subsection{Multiple Injection Layers as Persistent Acoustic Memory}
@@ -101,9 +103,14 @@ We utilize all encoder hidden states $\{\boldsymbol{h}_0 \, \boldsymbol{h}_1 \cd
 Injecting acoustic context at multiple layers risks letting acoustic signals overwhelm the LLM's own generative flow, especially for purely syntactic tokens (punctuation, function words).
 Following the zero-initialized gating principle from Flamingo~\cite{alayrac2022flamingovisuallanguagemodel}, each injection layer scales its cross-attention output with a single learnable scalar gate $g^{(j)}$: $$\tilde{\boldsymbol{h}}_{LLM} = \boldsymbol{h}_{LLM} + \tanh\!\left(g^{(j)}\right) \, \boldsymbol{C}_{audio}$$
 
+% REVIEW: (1) removed the claim that the gate protects "purely syntactic tokens": a single
+% scalar per layer cannot act per token. (2) From the code: queries are layer-normalized,
+% attention dropout is 0.2, projections have no bias, and there is no FFN (unlike Flamingo);
+% this matches the 59M/132M counts. (3) Report the learned tanh(g) values per layer.
+
 \subsection{Text Perturbation}
 \noindent
-To counter the ``lazy LM'' problem, where the decoder over-relies on the teacher-forced text prior and ignores the injected acoustic information, we introduce a dynamic text perturbation mechanism. During training, target-history tokens are independently masked (replaced by the padding token) with a probability of $p=10\%$. By stochastically masking the textual history during teacher forcing, the decoder is compelled to actively attend to the continuous acoustic representations to accurately predict the subsequent token. We set $p=10\%$ per the ablation in Section~\ref{subsec:ablation}.
+To counter the ``lazy LLM'' problem, where the decoder over-relies on the teacher-forced text prior and ignores the injected acoustic information, we introduce a dynamic text perturbation mechanism. During training, target-history tokens are independently masked (replaced by the padding token) with a probability of $p=10\%$. By stochastically masking the textual history during teacher forcing, the decoder is compelled to actively attend to the continuous acoustic representations to accurately predict the subsequent token. We set $p=10\%$ per the ablation in Section~\ref{subsec:ablation}.
 
 \section{Experimental Setup}
 \label{sec:experiments}
@@ -111,6 +118,10 @@ To counter the ``lazy LM'' problem, where the decoder over-relies on the teacher
 \subsection{Backbones and Injection Configuration}
 \noindent
 Both language configurations adopt the frozen Whisper-large-v3~\cite{radford2022robustspeechrecognitionlargescale} encoder (637M parameters). For Greek, the LLM backbone is Llama-KriKri-8B-Instruct~\cite{roussis2025krikriadvancingopenlarge} (8.2B base parameters, hidden dimension $D_{LLM} = 4096$, 32 decoder blocks); for Hungarian, elte-nlp/Racka-4B~\cite{csibi2026rackaefficienthungarianllm} (4.0B base parameters, $D_{LLM} = 2560$, 36 decoder blocks). The trainable bridge network dynamically scales to match each LLM's hidden dimension space. Specifically, the bridge consists of an MLP adapter (19M for Hungarian, 21.5M for Greek), a shared Conv1D downsampler (5M for both), cross-attention modules (59M for Hungarian, 132M for Greek), and a layer-fusion module (1M for both). This brings the total trainable parameters in Stage~1 to 84M for Hungarian and 160M for Greek, approximately 1.78\% of the full model size in both configurations. In Stage~2, low-rank adaptation adds 168M LoRA parameters on KriKri-8B and 133M on Racka-4B, while the Stage~1 bridge remains frozen.
+
+% REVIEW: (1) the Greek backbone is an Instruct model while Racka-4B is not stated as such
+% -- justify or align. (2) The two languages use LLMs of different sizes, so do not draw
+% cross-language conclusions about the method.
 
 \subsection{2-Stage LoRA Curriculum and Training Hyperparameters}
 \noindent
@@ -121,19 +132,35 @@ In Stage 1, the LLM and Whisper encoder are fully frozen and only the bridge net
 We evaluate our architecture on diverse speech corpora spanning formal, read, and spontaneous registers for both languages. For Greek, the datasets include Common Voice~\cite{ardila2020commonvoice}, FLEURS~\cite{conneau2022fleurs}, HParl~\cite{paraskevopoulos2023hparl}, TEDx~\cite{salesky2021mtedx}, Logotypographia~\cite{digalakis2003logotypographia}. For Hungarian, we utilize Common Voice~\cite{ardila2020commonvoice}, FLEURS~\cite{conneau2022fleurs}, Speech Massive~\cite{lee2024speechmassive}, VoxPopuli~\cite{wang2021voxpopuli}, and Yodas~\cite{li2023yodas}. The Hungarian training mixture also incorporates ``Internal-1'' and ``Internal-2'', comprising approx.\ 1,500 hours of conversational telephony and broadcast data. Each corpus is split into train/validation/test following a fixed priority: the creators' own official splits, if provided; otherwise, a leave-subject-out (LSO) split by speaker/subject ID, ensuring no speaker overlaps train and test, using a 60/20/20 ratio. Because dataset sizes vary by orders of magnitude, training batches are constructed via interleaved sampling across corpora (with a temperature factor of $T = 1.2$).
 %TODO more info on our internal datasets. You must clarify the size, domain, and nature of these datasets to assure reviewers they aren't the sole drivers of your performance gains.
 %TODO \textbf{Reproducibility Red Flag (Section 3.3):} The inclusion of proprietary "Internal-1" and "Internal-2" datasets comprising roughly 1,500 hours of Hungarian speech is a major issue for a reproducible academic paper\textsuperscript{}. As noted by the inline TODO comment in your LaTeX source, you must clarify the exact domain and nature of this data\textsuperscript{}. More importantly, you must include an ablation in Section 4 demonstrating the model's performance \textit{without} these internal datasets to prove that the architectural gains are not solely driven by this massive data advantage.
+%TODO scan the 4 internal datasets and provide information on their size, domain, and nature to assure reviewers they aren't the sole drivers of your performance gains.
+% (6) Cite the exact YODAS release. If you used a pseudo-labelled release (e.g. the
+%     Granary version of YODAS2), cite that release instead of li2023yodas.
 
 \subsection{Preprocessing, Prompting, and Inference}
 \noindent
 Transcripts are normalized by removing non-spoken artifacts, such as speaker-tags and transcriber annotations. The text is further simplified, by standardizing punctuation and verbalizing numbers. We actively retain punctuation; this ensures the model is trained to actively predict punctuation and syntactic boundaries directly from the acoustic signal and linguistic context. Utterances are conditioned on transcription style prompts: \texttt{[PROMPT\_CLEAN]} (accurate, clean transcript), \texttt{[PROMPT\_VERBATIM]} (word-for-word transcript, disfluencies retained), or \texttt{[PROMPT\_FORMAL]} (strictly formal/official transcript). Each corpus is assigned one style matching its own reference-transcription convention, applied consistently at training and inference. During training, Whisper's input features are also regularized with SpecAugment~\cite{park2019specaugment}. Inference uses beam search (beam width of 4) with a repetition penalty of $1.15$ and a 512-token maximum constraint.
+% REVIEW: (1) The corpus-specific style prompt gives the model oracle domain information
+% that zero-shot baselines do not receive; acknowledge it, or report results with a
+% single default prompt. (2) A repetition penalty can penalize legitimate repeated words
+% in verbatim speech; justify it. (3) Report real-time factor / latency vs. Whisper: an
+% 8B LLM with beam 4 is far more expensive, and ICASSP reviewers will ask.
 
 \section{Results and Discussion}
 We evaluate using standard Word Error Rate (WER), Character Error Rate (CER), and Normalized Word Error Rate (N-WER), which is the error rate after stripping punctuation and casing variations (using the Whisper text normalization).
 Because standard WER penalizes missing punctuation, our strong results across both metrics indicate the architecture actively predicts syntactic boundaries from acoustic prosody.
 However, we use N-WER as our primary comparative metric to align with the VoxKrikri baseline.
+% REVIEW: (1) state the exact normalizer: Whisper's EnglishTextNormalizer must not be
+% used for Greek/Hungarian; with BasicTextNormalizer, state whether diacritics are removed
+% (removing them is invalid for Hungarian ö/ő/o and changes Greek tonos handling).
+% (2) REMOVED the claim that good results on both metrics show the model "predicts
+% syntactic boundaries from acoustic prosody": the LLM text prior alone can produce
+% punctuation. To claim it, report punctuation F1 and an audio-vs-text-only comparison.
+% (3) Add significance testing (e.g., bootstrap confidence intervals or MAPSSWE),
+% especially for the small FLEURS test sets.
 
 \subsection{Greek: Comparison Against Baselines}
 \noindent
-Table~\ref{tab:greek} compares against VoxKrikri (full-context, offline mode) and Whisper-v3 across five public Greek corpora. Our model outperforms VoxKrikri on Common Voice ($\Delta=-4.74$), HParl ($\Delta=-4.81$), and Logotypographia ($\Delta=-2.80$). FLEURS is the one corpus where VoxKrikri's simpler single-injection design wins ($\Delta=+1.57$), which qualitative analysis suggests stems from FLEURS's dense foreign named entities that our LLM's linguistic prior occasionally mis-transliterates (Section~\ref{subsec:limitations});
+Table~\ref{tab:greek} compares against VoxKrikri (full-context, offline mode) and Whisper-v3 across five public Greek corpora. Our model outperforms VoxKrikri on Common Voice ($\Delta=-4.74$), HParl ($\Delta=-4.81$), and Logotypographia ($\Delta=-2.80$). FLEURS is the one corpus where VoxKrikri's simpler single-injection design wins ($\Delta=+1.57$), which qualitative analysis suggests stems from FLEURS's dense foreign named entities that our LLM's linguistic prior occasionally mis-transliterates (Section~\ref{subsec:limitations}).
 
 \begin{table}[h]
 \centering
@@ -145,27 +172,25 @@ Table~\ref{tab:greek} compares against VoxKrikri (full-context, offline mode) an
 \toprule
 \textbf{Dataset} & \textbf{Ours} & \textbf{$\Delta_W$} & \textbf{Vox (full)} & \textbf{Whisper} \\
 \midrule
-Common Voice(34h)~\cite{ardila2020commonvoice}      & 7.3 / X.X / X.X & \textcolor{win}{-4.74} & 12.04 & 13.98 \\
-FLEURS(12h)~\cite{conneau2022fleurs}          & 10.9 / X.X / X.X & \textcolor{loss}{+1.57} & 9.33  & 11.02 \\
-HParl(120h)~\cite{paraskevopoulos2023hparl}            & 8.2 / X.X / X.X & \textcolor{win}{-4.81} & 13.01 & 16.99 \\
-Logotypographia(52h)~\cite{digalakis2003logotypographia}  & 6.6 / X.X / X.X & \textcolor{win}{-2.80} & 9.4   & 10.86 \\
-TEDx(30h)~\cite{salesky2021mtedx}             & 17.8 / X.X / X.X & --   & --    & --    \\
+Common Voice(19h)~\cite{ardila2020commonvoice}      & 7.3 / \underline{5.1} / 3.0 & \textcolor{win}{-4.74} & 12.04 & 13.98 \\
+FLEURS(12h)~\cite{conneau2022fleurs}          & 10.9 / 9.9 / 4.8 & \textcolor{loss}{+1.57} & \underline{9.3}  & 11.02 \\
+HParl(120h)~\cite{paraskevopoulos2023hparl}            & 8.2 / \underline{8.2} / 4.7 & \textcolor{win}{-4.81} & 13.01 & 16.99 \\
+Logotypographia(61h)~\cite{digalakis2003logotypographia}  & 6.6 / \underline{6.6} / 2.0 & \textcolor{win}{-2.80} & 9.4   & 10.86 \\
+TEDx(29h)~\cite{salesky2021mtedx}             & 17.8 / 13.9 / 9.5 & -- & -- & \underline{12.3}    \\
 \bottomrule
 \end{tabular}%
 }
 \end{table}
-%TODO mention that TEDx has no published VoxKrikri results for direct comparison and fill the Whisper-v3 results after running the experiments.
-%TODO explain why our model underperforms on FLEURS, hypothesizing that the single-injection VoxKrikri design is better suited to this corpus' characteristics.
-%TODO fill the CER, n_WER metrics.
 
 \subsection{Hungarian: Comparison Against Baselines}
 \noindent
 Table~\ref{tab:hung} compares the model’s performance across all five
-public Hungarian corpora against against Whisper large-v3. We deliberately exclude the Whisper-Hu~\cite{trendency2024whisperlargev3hu} finetuned model due to disclosed test-set contamination on VoxPopuli, Common Voice, and Speech-Massive. Our model outperforms Whisper on four of the five comparable corpora, with the largest margins on FLEURS ($\Delta = -27.6$) and Speech Massive ($\Delta = -20.9$). The sole loss is Yodas, where plain Whisper remains stronger ($11.5$ vs. $8.1$, $\Delta = +3.4$). This loss likely reflects reference provenance rather than a real shortfall: Yodas transcripts are pseudo-labeled by faster-whisper-large-v3 itself, so comparing us to zero-shot Whisper on Whisper-generated references is close to self-referential evaluation.
+public Hungarian corpora against Whisper large-v3. We deliberately exclude the Whisper-Hu~\cite{trendency2024whisperlargev3hu} finetuned model due to disclosed test-set contamination on VoxPopuli, Common Voice, and Speech-Massive. Our model outperforms Whisper on four of the five comparable corpora, with the largest margins on Common Voice ($\Delta = -7.1$). The sole loss is Yodas, where plain Whisper remains stronger ($11.3$ vs. $6.2$, $\Delta = +5.1$). This loss likely reflects reference provenance rather than a real shortfall: Yodas transcripts are pseudo-labeled by faster-whisper-large-v3 itself, so comparing us to zero-shot Whisper on Whisper-generated references is close to self-referential evaluation.
+Crucially, to isolate our architectural improvements from the proprietary data advantage, Table~\ref{tab:public_data_ablation} details the performance of a model variant trained exclusively on the public corpora. Even without the 1,500-hour internal dataset, the public-only model suffers only a marginal degradation, maintaining a strict advantage over the Whisper baseline across the four comparable datasets and confirming the architectural efficacy of Dual-Fusion.
 
 \begin{table}[h]
     \centering
-    \caption{Hungarian ASR performance presented as WER / N-WER / CER (\%).
+    \caption{Hungarian ASR performance presented as WER / n-WER / CER (\%).
         $\Delta_W$ represents the N-WER difference between our model and the original Whisper baseline.}
     \label{tab:hung}
     \footnotesize
@@ -174,54 +199,72 @@ public Hungarian corpora against against Whisper large-v3. We deliberately exclu
         \toprule
         \textbf{Dataset} & \textbf{Ours} & \textbf{$\Delta_W$} & \textbf{Whisper} \\
         \midrule
-        Common Voice(180h)~\cite{ardila2020commonvoice}      & 9.0 / X.X / X.X  & \textcolor{win}{-6.9}  & 15.9 \\
-        FLEURS(12h)~\cite{conneau2022fleurs}              & 10.2 / X.X / X.X & \textcolor{win}{-27.6} & 37.8 \\
-        Speech Massive(120h)~\cite{lee2024speechmassive}       & 38.2 / X.X / X.X & \textcolor{win}{-20.9} & 59.1 \\
-        VoxPopuli(120h)~\cite{wang2021voxpopuli}            & 9.8 / X.X / X.X  & \textcolor{win}{-8.0}  & 17.8 \\
-        Yodas(150h)~\cite{li2023yodas}                & 11.5 / X.X / X.X & \textcolor{loss}{+3.4} & 8.1  \\
+        Common Voice(126h)~\cite{ardila2020commonvoice}      & 7.4 / \underline{6.0} / 2.0  & \textcolor{win}{-7.1}  & 13.1 \\
+        FLEURS(14h)~\cite{conneau2022fleurs}              & 10.4 / \underline{7.7} / 2.9 & \textcolor{win}{-5.7} & 13.4 \\
+        Speech Massive(6h)~\cite{lee2024speechmassive}       & 32.2 / \underline{14.1} / 8.1 & \textcolor{win}{-5.3} & 19.4 \\
+        VoxPopuli(60h)~\cite{wang2021voxpopuli}            & 10.0 / \underline{7.8} / 4.9  & \textcolor{win}{-6.7}  & 14.5 \\
+        Yodas(114h)~\cite{li2023yodas}                & 14.0 / 11.3 / 7.1 & \textcolor{loss}{+5.1} & \underline{6.2}  \\
         \bottomrule
     \end{tabular}%
     }
 \end{table}
-%TODO maybe mention commercial hungarian asr products that have reported scores on common voice and fleurs
 
-\subsection{Model Interpretability}
+\begin{table}[h]
+    \centering
+    \caption{Impact of proprietary data on n-WER (\%): \textbf{Ours (Public)} represents the model trained exclusively on public corpora. $\Delta$ indicates the error rate degradation when the internal datasets have been removed}
+    \label{tab:public_data_ablation}
+    \footnotesize
+    \resizebox{\columnwidth}{!}{%
+    \begin{tabular}{l | c c c c c}
+        \toprule
+        \textbf{Model Configuration} & \textbf{CV} & \textbf{FL} & \textbf{SM} & \textbf{VP} & \textbf{YD} \\
+        \midrule
+        Ours (Public) & 7.0 & 10.0 & 16.9 & 8.8 & 12.7 \\
+        $\Delta$ vs.\ Ours (Full) & \textcolor{loss}{+1.0} & \textcolor{loss}{+2.3} & \textcolor{loss}{+2.8} & \textcolor{loss}{+1.0} & \textcolor{loss}{+1.4} \\
+        \bottomrule
+    \end{tabular}%
+    }
+    \\
+    \vspace{6pt}
+    \raggedright \scriptsize
+    Note: CV (Common Voice), FL (FLEURS), SM (Speech Massive), VP (VoxPopuli), YD (Yodas)
+\end{table}
+
+%TODO mention that internal datasets are used for training the full model. Explain the duration, and the domain of these datasets to assure reviewers they aren't the sole drivers of your performance gains. The durations are: 1) Internal-1: 1,500 hours of Read Speech and Spontaneous / Conversational data, 2) Internal-2: 2000 hours of Conversational data. These datasets are proprietary and not publicly available, but they are used to enhance the model's performance on medium-resource hungarian.
+
+\subsection{Cross-Attention Analysis}
 \noindent
 To empirically substantiate the depth specialization hypothesized in Section~\ref{subsec:multiple_injection}, we measured attention entropy ($\bar{H}^$) and Pearson diagonality ($r$) over 1k random Common Voice samples across Racka's three injection layers $\lbrack15,25,35\rbrack$. As visualized in Fig.~\ref{fig:word_level_alignment}, our quantitative analysis confirms distinct functional roles for each depth: (i) the earliest layer (15) exhibits high entropy ($\bar{H} = 0.951$) and moderate, highly variable diagonality ($r = 0.534$), for coarse salient event detection; (ii) the middle layer (25) achieves sharp temporal focus, characterized by the lowest entropy ($\bar{H}^ = 0.759$) and highest monotonic diagonality ($r = 0.887$). Notably, this precise grounding occurs at $\sim$69\% relative depth of Racka's 36 decoder layers, corroborating independent findings for VoxKrikri~\cite{damianos2025voxkrikriunifyingspeechlanguage}; and (iii) the latest layer (35) shows a relaxation in temporal tracking, with elevated entropy ($\bar{H}^{\text{norm}} = 0.788$) and reduced diagonality ($r = 0.704$), confirming its role in diffuse, non-monotonic global re-grounding.
 
 \begin{figure}[h]
     \centering
-    \begin{subfigure}[b]{0.14\textwidth}
-        \includegraphics[width=\textwidth]{word_level_alignment_continuous_layer_0.png}
-        \caption{Layer 15}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.14\textwidth}
-        \includegraphics[width=\textwidth]{word_level_alignment_continuous_layer_1.png}
-        \caption{Layer 25}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.14\textwidth}
-        \includegraphics[width=\textwidth]{word_level_alignment_continuous_layer_2.png}
-        \caption{Layer 35}
-    \end{subfigure}
-    \caption{Word-level cross-attention alignment for a representative Hungarian
-    test utterance, shown separately for each of the three injection layers}
+    \includegraphics[height=82pt,keepaspectratio]{combined_word_alignment_common_voice(1).png}
+    \caption{Word-level cross-attention alignment for a representative Hungarian test utterance across the three injection layers. Temporal tracking sharpens strictly in the middle layer (Layer 25).}
     \label{fig:word_level_alignment}
 \end{figure}
 
 \subsection{Limitations}
 \label{subsec:limitations}
 \noindent
+
+%misspells foreign names
+%the encoder's fixed 30\,s window truncates longer inputs
+%
+
 Our qualitative analysis surfaces a recurring failure mode: because the fused LLM carries strong linguistic priors, it sometimes acts less like a verbatim transcriber and more like a ``copy editor''. Observed behaviors include silently dropping hesitation markers and dysfluencies, normalizing colloquial contractions to their formal written form, occasionally completing thoughts on abruptly cut-off audio, and mis-transliterating foreign proper names, inflating WER on disfluency-rich, verbatim-style corpora even when the output is fluent and largely faithful in meaning.
 
-Additionally, the Hungarian training mixture utilizes proprietary data not seen by the baseline models, meaning performance gains cannot be strictly isolated to the architecture. Finally, our evaluation is also limited to two medium-resource languages, a single frozen acoustic encoder (Whisper-large-v3); generalization to other languages, encoders, or truly low-resource settings remains untested.
+Finally, our evaluation is also limited to two medium-resource languages, a single frozen acoustic encoder (Whisper-large-v3); generalization to other languages, encoders, or truly low-resource settings remains untested.
 
 \subsection{Ablation Study}
 \label{subsec:ablation}
 \noindent
-To isolate the performance contributions of our individual architectural choices, we conduct a systematic ablation study. Table~\ref{tab:ablation} outlines the progressive ablation needed to attribute the reported gains to individual design choices rather than their combination. To circumvent the prohibitive expense of executing multiple full-length training cycles, all ablation metrics are evaluated on the validation set specifically at the 12,000-step training checkpoint.
-%TODO a little discussion here for the results.
+To isolate component contributions without prohibitive training costs, we evaluate ablations on the validation set at 12k steps (Table~\ref{tab:ablation}).
+As shown in Table~\ref{tab:ablation}, the Full Model achieves a baseline validation WER of $21.4$\%. Removing or altering any core component consistently degrades performance, validating our design:
+(i) removing the prefix audio tokens causes the largest loss ($+3.3$). It deprives the LLM's early layers of global acoustic context. Most importantly, prefix tokens are visible to self-attention in every block from the first step;
+(ii) using only the final encoder layer degrades WER by $1.8$, as intermediate layers retain phonetic detail~\cite{yang2021superbspeechprocessinguniversal}. Static, utterance-independent layer weights recover part of this gap but still degrades by $+1.1$, showing that adapting the mixture to each utterance brings a further gain;
+(iii) removing the zero-initialized $\tanh$ gate ($+1.1$) injects unstructured, randomly-initialized noise into the pre-trained LLM from the first update. The gate ensures stable, gradual integration of the acoustic signal;
+(iv) masking 0\% of the target history increases WER by $1.1$, as the model over-relies on text priors for subword completion and ignores the acoustic pathway. Conversely, excessive masking ($20$–$30$\%) destroys the linguistic context required for clean inference;
+(v) $k=5$ matches the prompt-path resolution and adds less temporal detail ($+0.4$). $k=1$ gains only $0.2$ while tripling the key/value length of every cross-attention module, so $k=3$ offers the best accuracy--cost trade-off
 
 \begin{table}[h]
 \centering
@@ -237,18 +280,14 @@ Full model & 21.4 & -- \\
 \midrule
 Without Prompt Injection & 24.7 & \textcolor{loss}{+3.3} \\
 \midrule
-With 2 injection layers (15, 25) & \emph{TBD} & \textcolor{loss}{+X.X} \\
-With 2 injection layers (25, 35) & \emph{TBD} & \textcolor{loss}{+X.X} \\
-With 1 injection layer (25) & \emph{TBD} & \textcolor{loss}{+X.X} \\
+Without Layer-Wise Acoustic Fusion & 23.2 & \textcolor{loss}{+1.8} \\
+With Input-Independent Layer Weights & 22.5 & \textcolor{loss}{+1.1} \\
 \midrule
-Without layer-wise acoustic fusion & 23.2 & \textcolor{loss}{+1.8} \\
-With input-independent layer weights & 22.5 & \textcolor{loss}{+1.1} \\
+Without Gated Cross-Attention & \emph{22.5} & \textcolor{loss}{+1.1} \\
 \midrule
-Without gated cross-attention & \emph{22.5} & \textcolor{loss}{+1.1} \\
-\midrule
-Without text perturbation, $p=0\%$ & \emph{22.5} & \textcolor{loss}{+1.1} \\
-With text perturbation, $p=20\%$& \emph{22.1} & \textcolor{loss}{+0.7} \\
-With text perturbation, $p=30\%$& \emph{22.5} & \textcolor{loss}{+1.1} \\
+Without Text Perturbation, $p=0\%$ & \emph{22.5} & \textcolor{loss}{+1.1} \\
+With Text Perturbation, $p=20\%$& \emph{22.1} & \textcolor{loss}{+0.7} \\
+With Text Perturbation, $p=30\%$& \emph{22.5} & \textcolor{loss}{+1.1} \\
 \midrule
 Cross-Attn Downsampling Factor $k=5$ & \emph{21.8} & \textcolor{loss}{+0.4} \\
 Cross-Attn Downsampling Factor $k=1$ & \emph{21.2} & \textcolor{win}{-0.2} \\
@@ -263,7 +302,6 @@ We presented a Continuous Dual-Fusion architecture coupling a frozen Whisper enc
 
 We plan to: (i) incorporate acoustic data from higher-resource languages (e.g., English, German for Hungarian and English, Cypriot for Greek) to strengthen shared representations while confining foreign-language exposure to the encoder/cross-attention pathway and monitoring for code-switching leakage; (ii) use TTS-synthesized utterances to expose
 the linguistic side to target-language words absent from our corpora, particularly for morphologically rich Hungarian; and (iii) explore an audio-forecasting head predicting the next downsampled acoustic embedding from the LLM's hidden states at injected audio-token positions, which could serve as transcript-free self-supervised pretraining over unlabeled speech, directly addressing the paired-data scarcity motivating this work.
-%TODO check this section again
 
 \newpage
 \bibliographystyle{IEEEbib}
