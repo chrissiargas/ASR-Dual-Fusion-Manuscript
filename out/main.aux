@@ -32,6 +32,7 @@
 \citation{chiu24_interspeech}
 \citation{tripathi2025listenliketeachermitigating}
 \citation{hsu2025taslatextalignedspeechtokens}
+\citation{bowman2016}
 \citation{jia2026decodingperturbationmitigatingmllm}
 \@writefile{toc}{\contentsline {section}{\numberline {1} Introduction}{1}{section.1}\protected@file@percent }
 \newlabel{sec:intro}{{1}{1}{Introduction}{section.1}{}}
@@ -49,6 +50,9 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3} Layer-Wise Fusion of Acoustic Representations}{2}{subsection.2.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4} Gated Cross-Attention}{2}{subsection.2.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5} Text Perturbation}{2}{subsection.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3} Experimental Setup}{2}{section.3}\protected@file@percent }
+\newlabel{sec:experiments}{{3}{2}{Experimental Setup}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1} Backbones and Injection Configuration}{2}{subsection.3.1}\protected@file@percent }
 \citation{loshchilov2019decoupledweightdecayregularization}
 \citation{hu2021loralowrankadaptation}
 \citation{dettmers2023qloraefficientfinetuningquantizedllms}
@@ -61,7 +65,7 @@
 \citation{conneau2022fleurs}
 \citation{lee2024speechmassive}
 \citation{wang2021voxpopuli}
-\citation{li2023yodas}
+\citation{koluguri2025granaryspeechrecognitiontranslation}
 \citation{park2019specaugment}
 \citation{ardila2020commonvoice}
 \citation{conneau2022fleurs}
@@ -74,32 +78,29 @@
 \citation{lee2024speechmassive}
 \citation{wang2021voxpopuli}
 \citation{li2023yodas}
-\citation{damianos2025voxkrikriunifyingspeechlanguage}
-\@writefile{toc}{\contentsline {section}{\numberline {3} Experimental Setup}{3}{section.3}\protected@file@percent }
-\newlabel{sec:experiments}{{3}{3}{Experimental Setup}{section.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1} Backbones and Injection Configuration}{3}{subsection.3.1}\protected@file@percent }
+\citation{yang2021superbspeechprocessinguniversal}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2} 2-Stage LoRA Curriculum and Training Hyperparameters}{3}{subsection.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3} Corpora}{3}{subsection.3.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4} Preprocessing, Prompting, and Inference}{3}{subsection.3.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {4} Results and Discussion}{3}{section.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1} Greek: Comparison Against Baselines}{3}{subsection.4.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Greek ASR performance presented as WER / CER / N-WER (\%). $\Delta _W$ compares our N-WER to the best competitive baseline\relax }}{3}{table.caption.2}\protected@file@percent }
-\newlabel{tab:greek}{{1}{3}{Greek ASR performance presented as WER / CER / N-WER (\%). $\Delta _W$ compares our N-WER to the best competitive baseline\relax }{table.caption.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Greek ASR performance. n-WER (\%) is the primary metric for comparison against baselines. Standard WER and CER are provided for our model for completeness.\relax }}{3}{table.caption.2}\protected@file@percent }
+\newlabel{tab:greek}{{1}{3}{Greek ASR performance. n-WER (\%) is the primary metric for comparison against baselines. Standard WER and CER are provided for our model for completeness.\relax }{table.caption.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2} Hungarian: Comparison Against Baselines}{3}{subsection.4.2}\protected@file@percent }
-\citation{yang2021superbspeechprocessinguniversal}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Hungarian ASR performance presented as WER / n-WER / CER (\%). $\Delta _W$ represents the N-WER difference between our model and the original Whisper baseline.\relax }}{4}{table.caption.3}\protected@file@percent }
-\newlabel{tab:hung}{{2}{4}{Hungarian ASR performance presented as WER / n-WER / CER (\%). $\Delta _W$ represents the N-WER difference between our model and the original Whisper baseline.\relax }{table.caption.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Impact of proprietary data on n-WER (\%): \textbf  {Ours (Public)} represents the model trained exclusively on public corpora. $\Delta $ indicates the error rate degradation when the internal datasets have been removed\relax }}{4}{table.caption.4}\protected@file@percent }
-\newlabel{tab:public_data_ablation}{{3}{4}{Impact of proprietary data on n-WER (\%): \textbf {Ours (Public)} represents the model trained exclusively on public corpora. $\Delta $ indicates the error rate degradation when the internal datasets have been removed\relax }{table.caption.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3} Cross-Attention Analysis}{4}{subsection.4.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Word-level cross-attention alignment for a representative Hungarian test utterance across the three injection layers. Temporal tracking sharpens strictly in the middle layer (Layer 25).\relax }}{4}{figure.caption.5}\protected@file@percent }
-\newlabel{fig:word_level_alignment}{{2}{4}{Word-level cross-attention alignment for a representative Hungarian test utterance across the three injection layers. Temporal tracking sharpens strictly in the middle layer (Layer 25).\relax }{figure.caption.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4} Limitations}{4}{subsection.4.4}\protected@file@percent }
-\newlabel{subsec:limitations}{{4.4}{4}{Limitations}{subsection.4.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5} Ablation Study}{4}{subsection.4.5}\protected@file@percent }
-\newlabel{subsec:ablation}{{4.5}{4}{Ablation Study}{subsection.4.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Ablation study for Hungarian on the validation set, presented as WER. $\Delta _W$ represents the WER degradation compared to the Full model.\relax }}{4}{table.caption.6}\protected@file@percent }
-\newlabel{tab:ablation}{{4}{4}{Ablation study for Hungarian on the validation set, presented as WER. $\Delta _W$ represents the WER degradation compared to the Full model.\relax }{table.caption.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3} Ablation Study}{3}{subsection.4.3}\protected@file@percent }
+\newlabel{subsec:ablation}{{4.3}{3}{Ablation Study}{subsection.4.3}{}}
+\citation{damianos2025voxkrikriunifyingspeechlanguage}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Hungarian ASR performance. n-WER (\%) is the primary metric for comparison against the baseline. Standard WER and CER are provided for our model for completeness.\relax }}{4}{table.caption.3}\protected@file@percent }
+\newlabel{tab:hung}{{2}{4}{Hungarian ASR performance. n-WER (\%) is the primary metric for comparison against the baseline. Standard WER and CER are provided for our model for completeness.\relax }{table.caption.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Impact of proprietary data on Hungarian n-WER (\%). \textbf  {Ours (Full)} uses all data, while \textbf  {Ours (Public)} is trained exclusively on public corpora. $\Delta $ indicates the absolute error rate degradation when internal datasets are removed.\relax }}{4}{table.caption.4}\protected@file@percent }
+\newlabel{tab:public_data_ablation}{{3}{4}{Impact of proprietary data on Hungarian n-WER (\%). \textbf {Ours (Full)} uses all data, while \textbf {Ours (Public)} is trained exclusively on public corpora. $\Delta $ indicates the absolute error rate degradation when internal datasets are removed.\relax }{table.caption.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Ablation study for Hungarian on the validation set. $\Delta _W$ represents the WER degradation compared to the Full model.\relax }}{4}{table.caption.5}\protected@file@percent }
+\newlabel{tab:ablation}{{4}{4}{Ablation study for Hungarian on the validation set. $\Delta _W$ represents the WER degradation compared to the Full model.\relax }{table.caption.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4} Cross-Attention Analysis}{4}{subsection.4.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Word-level cross-attention alignment for a representative Hungarian test utterance across the three injection layers. Temporal tracking sharpens strictly in the middle layer (Layer 25).\relax }}{4}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:word_level_alignment}{{2}{4}{Word-level cross-attention alignment for a representative Hungarian test utterance across the three injection layers. Temporal tracking sharpens strictly in the middle layer (Layer 25).\relax }{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5} Limitations}{4}{subsection.4.5}\protected@file@percent }
+\newlabel{subsec:limitations}{{4.5}{4}{Limitations}{subsection.4.5}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {5} Conclusion \& Future Work}{4}{section.5}\protected@file@percent }
 \bibstyle{IEEEbib}
 \bibdata{main}
@@ -119,22 +120,24 @@
 \bibcite{chiu24_interspeech}{14}
 \bibcite{tripathi2025listenliketeachermitigating}{15}
 \bibcite{hsu2025taslatextalignedspeechtokens}{16}
-\bibcite{jia2026decodingperturbationmitigatingmllm}{17}
-\bibcite{alayrac2022flamingovisuallanguagemodel}{18}
+\bibcite{bowman2016}{17}
+\bibcite{jia2026decodingperturbationmitigatingmllm}{18}
+\bibcite{alayrac2022flamingovisuallanguagemodel}{19}
+\bibcite{roussis2025krikriadvancingopenlarge}{20}
+\bibcite{csibi2026rackaefficienthungarianllm}{21}
+\bibcite{loshchilov2019decoupledweightdecayregularization}{22}
+\bibcite{hu2021loralowrankadaptation}{23}
+\bibcite{dettmers2023qloraefficientfinetuningquantizedllms}{24}
+\bibcite{ardila2020commonvoice}{25}
+\bibcite{conneau2022fleurs}{26}
+\bibcite{paraskevopoulos2023hparl}{27}
+\bibcite{salesky2021mtedx}{28}
+\bibcite{digalakis2003logotypographia}{29}
+\bibcite{lee2024speechmassive}{30}
+\bibcite{wang2021voxpopuli}{31}
+\bibcite{koluguri2025granaryspeechrecognitiontranslation}{32}
+\bibcite{park2019specaugment}{33}
+\bibcite{trendency2024whisperlargev3hu}{34}
+\bibcite{li2023yodas}{35}
 \@writefile{toc}{\contentsline {section}{\numberline {6} References}{5}{section.6}\protected@file@percent }
-\bibcite{roussis2025krikriadvancingopenlarge}{19}
-\bibcite{csibi2026rackaefficienthungarianllm}{20}
-\bibcite{loshchilov2019decoupledweightdecayregularization}{21}
-\bibcite{hu2021loralowrankadaptation}{22}
-\bibcite{dettmers2023qloraefficientfinetuningquantizedllms}{23}
-\bibcite{ardila2020commonvoice}{24}
-\bibcite{conneau2022fleurs}{25}
-\bibcite{paraskevopoulos2023hparl}{26}
-\bibcite{salesky2021mtedx}{27}
-\bibcite{digalakis2003logotypographia}{28}
-\bibcite{lee2024speechmassive}{29}
-\bibcite{wang2021voxpopuli}{30}
-\bibcite{li2023yodas}{31}
-\bibcite{park2019specaugment}{32}
-\bibcite{trendency2024whisperlargev3hu}{33}
-\gdef \@abspage@last{6}
+\gdef \@abspage@last{5}

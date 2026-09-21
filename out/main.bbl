@@ -96,6 +96,11 @@ Ming-Hao Hsu, Liang-Hsuan Tseng, Hung yi~Lee, and Zhizheng Wu,
 \newblock ``Tasla: Text-aligned speech tokens with multiple
   layer-aggregation,'' 2025.
 
+\bibitem{bowman2016}
+Samuel~R. Bowman, Luke Vilnis, Oriol Vinyals, Andrew~M. Dai, Rafal Jozefowicz,
+  and Samy Bengio,
+\newblock ``Generating sentences from a continuous space,'' 2016.
+
 \bibitem{jia2026decodingperturbationmitigatingmllm}
 Sihang Jia, Shuliang Liu, Songbo Yang, Yibo Yan, Xin Zou, and Xuming Hu,
 \newblock ``Decoding by perturbation: Mitigating mllm hallucinations via
@@ -150,15 +155,13 @@ Rosana Ardila, Megan Branson, Kelly Davis, Michael Kohler, Josh Meyer, Michael
 Alexis Conneau, Min Ma, Simran Khanuja, Yu~Zhang, Vera Axelrod, Siddharth
   Dalmia, Jason Riesa, Clara Rivera, and Ankur Bapna,
 \newblock ``Fleurs: Few-shot learning evaluation of universal representations
-  of speech,'' 2022,
-\newblock IEEE SLT 2022 (Best Paper).
+  of speech,'' 2022.
 
 \bibitem{paraskevopoulos2023hparl}
 Georgios Paraskevopoulos, Theodoros Kouzelis, Georgios Rouvalis, Athanasios
   Katsamanis, Vassilis Katsouros, and Alexandros Potamianos,
 \newblock ``Sample-efficient unsupervised domain adaptation of speech
-  recognition systems: A case study for modern greek,'' 2022,
-\newblock Introduces the HParl 120-hour Hellenic Parliament speech corpus.
+  recognition systems: A case study for modern greek,'' 2022.
 
 \bibitem{salesky2021mtedx}
 Elizabeth Salesky, Matthew Wiesner, Jacob Bremerman, Roldano Cattoni, Matteo
@@ -192,12 +195,13 @@ Changhan Wang, Morgane Riviere, Ann Lee, Anne Wu, Chaitanya Talnikar, Daniel
   Natural Language Processing (Volume 1: Long Papers)}, Online, Aug. 2021, pp.
   993--1003, Association for Computational Linguistics.
 
-\bibitem{li2023yodas}
-Xinjian Li, Shinnosuke Takamichi, Takaaki Saeki, William Chen, Sayaka Shiota,
-  and Shinji Watanabe,
-\newblock ``Yodas: Youtube-oriented dataset for audio and speech,''
-\newblock in {\em 2023 IEEE Automatic Speech Recognition and Understanding
-  Workshop (ASRU)}. IEEE, 2023, pp. 1--8.
+\bibitem{koluguri2025granaryspeechrecognitiontranslation}
+Nithin~Rao Koluguri, Monica Sekoyan, George Zelenfroynd, Sasha Meister,
+  Shuoyang Ding, Sofia Kostandian, He~Huang, Nikolay Karpov, Jagadeesh Balam,
+  Vitaly Lavrukhin, Yifan Peng, Sara Papi, Marco Gaido, Alessio Brutti, and
+  Boris Ginsburg,
+\newblock ``Granary: Speech recognition and translation dataset in 25 european
+  languages,'' 2025.
 
 \bibitem{park2019specaugment}
 Daniel~S. Park, William Chan, Yu~Zhang, Chung-Cheng Chiu, Barret Zoph, Ekin~D.
@@ -208,5 +212,12 @@ Daniel~S. Park, William Chan, Yu~Zhang, Chung-Cheng Chiu, Barret Zoph, Ekin~D.
 \bibitem{trendency2024whisperlargev3hu}
 {Trendency},
 \newblock ``whisper-large-v3-hu (trendency),'' Hugging Face model card, 2024.
+
+\bibitem{li2023yodas}
+Xinjian Li, Shinnosuke Takamichi, Takaaki Saeki, William Chen, Sayaka Shiota,
+  and Shinji Watanabe,
+\newblock ``Yodas: Youtube-oriented dataset for audio and speech,''
+\newblock in {\em 2023 IEEE Automatic Speech Recognition and Understanding
+  Workshop (ASRU)}. IEEE, 2023, pp. 1--8.
 
 \end{thebibliography}
