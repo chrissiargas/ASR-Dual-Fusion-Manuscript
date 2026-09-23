@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.1.30)  23 SEP 2026 16:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.1.30)  23 SEP 2026 17:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -565,12 +565,12 @@ Overfull \hbox (0.72635pt too wide) detected at line 102
 
 [2 <./dual_fusion_architecture.drawio.pdf>]
 LaTeX Font Info:    Trying to load font information for OT1+fvm on input line 1
-30.
-LaTeX Font Info:    No file OT1fvm.fd. on input line 130.
+31.
+LaTeX Font Info:    No file OT1fvm.fd. on input line 131.
 
 
 LaTeX Font Warning: Font shape `OT1/fvm/m/n' undefined
-(Font)              using `OT1/cmr/m/n' instead on input line 130.
+(Font)              using `OT1/cmr/m/n' instead on input line 131.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -579,51 +579,22 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [3]
-/home/c.siargkas/PycharmProjects/ASR-manuscript/src/main.tex:257: Missing { ins
-erted.
-<to be read again> 
-                   $
-l.257 ...we measured attention entropy ($\bar{H}^$
-                                                  ) and Pearson diagonality ...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-/home/c.siargkas/PycharmProjects/ASR-manuscript/src/main.tex:257: Missing } ins
-erted.
-<inserted text> 
-                }
-l.257 ...we measured attention entropy ($\bar{H}^$
-                                                  ) and Pearson diagonality ...
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-<combined_word_alignment_common_voice(1).png, id=270, 1293.3921pt x 427.3566pt>
+<combined_word_alignment_common_voice(1).png, id=272, 1293.3921pt x 427.3566pt>
 
 File: combined_word_alignment_common_voice(1).png Graphic file (type png)
 <use combined_word_alignment_common_voice(1).png>
 Package pdftex.def Info: combined_word_alignment_common_voice(1).png  used on i
-nput line 261.
+nput line 260.
 (pdftex.def)             Requested size: 248.17453pt x 82.0pt.
 
-Overfull \hbox (3.48083pt too wide) in paragraph at lines 261--262
+Overfull \hbox (3.48083pt too wide) in paragraph at lines 260--261
  [][] 
  []
 
 
-Underfull \hbox (badness 1603) in paragraph at lines 274--276
+Underfull \hbox (badness 1603) in paragraph at lines 273--275
 \OT1/ptm/m/n/9 We pre-sented a Con-tin-u-ous Dual-Fusion ar-chi-tec-ture cou-pl
 ing
- []
-
-
-Underfull \hbox (badness 1237) in paragraph at lines 277--278
-\OT1/ptm/m/n/9 attention path-way and mon-i-tor-ing code-switching leak-age; (i
-i)
  []
 
 [4 <./combined_word_alignment_common_voice(1).png>]
@@ -639,15 +610,13 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-[5]
+
 Underfull \hbox (badness 2591) in paragraph at lines 125--130
 \OT1/ptm/m/n/8 Nagy, D[]avid M[]ark Nemeskey, Mar-tin Sal-lai, Andr[]as Si-mony
 i,
  []
 
-) [6
-
-] (/home/c.siargkas/PycharmProjects/ASR-manuscript/out/main.aux)
+) [5] (/home/c.siargkas/PycharmProjects/ASR-manuscript/out/main.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -655,13 +624,13 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: E70AC27C0864548A4E88101DD5A595AC;3912.
  ) 
 Here is how much of TeX's memory you used:
- 15375 strings out of 478287
- 294460 string characters out of 5849289
- 577851 words of memory out of 5000000
+ 15374 strings out of 478287
+ 294454 string characters out of 5849289
+ 577697 words of memory out of 5000000
  33293 multiletter control sequences out of 15000+600000
  498276 words of font info for 89 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,11n,79p,1308b,887s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 70i,11n,79p,1308b,777s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-d
@@ -679,10 +648,10 @@ f-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/
 utmri8a.pfb>
 Output written on /home/c.siargkas/PycharmProjects/ASR-manuscript/out/main.pdf 
-(6 pages, 2769629 bytes).
+(5 pages, 2768550 bytes).
 PDF statistics:
- 375 PDF objects out of 1000 (max. 8388607)
- 300 compressed objects within 3 object streams
- 68 named destinations out of 1000 (max. 500000)
+ 372 PDF objects out of 1000 (max. 8388607)
+ 298 compressed objects within 3 object streams
+ 67 named destinations out of 1000 (max. 500000)
  171 words of extra memory for PDF output out of 10000 (max. 10000000)
 
