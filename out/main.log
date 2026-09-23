@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.1.30)  23 SEP 2026 17:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.1.30)  23 SEP 2026 17:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/home/c.siargkas/PycharmProjects/ASR-manuscript/src/main.tex
-(/home/c.siargkas/PycharmProjects/ASR-manuscript/src/main.tex
+**main.tex
+(./main.tex
 LaTeX2e <2021-11-15> patch level 1
 L3 programming layer <2022-01-21>
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
@@ -495,8 +495,7 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 46.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-/home/c.siargkas/PycharmProjects/ASR-manuscript/src/main.tex:46: Missing } inse
-rted.
+./main.tex:46: Missing } inserted.
 <inserted text> 
                 }
 l.46 
@@ -505,8 +504,7 @@ I've put in what seems to be necessary to fix
 the current column of the current alignment.
 Try to go on, since this might almost work.
 
-/home/c.siargkas/PycharmProjects/ASR-manuscript/src/main.tex:46: Extra }, or fo
-rgotten \endgroup.
+./main.tex:46: Extra }, or forgotten \endgroup.
 <recently read> }
                  
 l.46 
@@ -592,26 +590,14 @@ Overfull \hbox (3.48083pt too wide) in paragraph at lines 260--261
  []
 
 
-Underfull \hbox (badness 1603) in paragraph at lines 273--275
+Underfull \hbox (badness 1603) in paragraph at lines 272--274
 \OT1/ptm/m/n/9 We pre-sented a Con-tin-u-ous Dual-Fusion ar-chi-tec-ture cou-pl
 ing
  []
 
 [4 <./combined_word_alignment_common_voice(1).png>]
 (/home/c.siargkas/PycharmProjects/ASR-manuscript/out/main.bbl
-/home/c.siargkas/PycharmProjects/ASR-manuscript/out/main.bbl:11: Misplaced alig
-nment tab character &.
-l.11 \newblock ``Canary-1b-v2 &
-                                parakeet-tdt-0.6b-v3: Efficient and high-per...
-I can't figure out why you would want to use a tab mark
-here. If you just want an ampersand, the remedy is
-simple: Just type `I\&' now. But if some right brace
-up above has ended a previous alignment prematurely,
-you're probably due for more error messages, and you
-might try typing `S' now just to see what is salvageable.
-
-
-Underfull \hbox (badness 2591) in paragraph at lines 125--130
+Underfull \hbox (badness 2591) in paragraph at lines 133--138
 \OT1/ptm/m/n/8 Nagy, D[]avid M[]ark Nemeskey, Mar-tin Sal-lai, Andr[]as Si-mony
 i,
  []
@@ -620,17 +606,20 @@ i,
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: E70AC27C0864548A4E88101DD5A595AC;3912.
  ) 
 Here is how much of TeX's memory you used:
- 15374 strings out of 478287
- 294454 string characters out of 5849289
+ 15375 strings out of 478287
+ 294349 string characters out of 5849289
  577697 words of memory out of 5000000
- 33293 multiletter control sequences out of 15000+600000
+ 33294 multiletter control sequences out of 15000+600000
  498276 words of font info for 89 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 70i,11n,79p,1308b,777s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 70i,11n,79p,1256b,777s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-d
@@ -648,10 +637,10 @@ f-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/
 utmri8a.pfb>
 Output written on /home/c.siargkas/PycharmProjects/ASR-manuscript/out/main.pdf 
-(5 pages, 2768550 bytes).
+(5 pages, 2768694 bytes).
 PDF statistics:
- 372 PDF objects out of 1000 (max. 8388607)
- 298 compressed objects within 3 object streams
- 67 named destinations out of 1000 (max. 500000)
+ 373 PDF objects out of 1000 (max. 8388607)
+ 299 compressed objects within 3 object streams
+ 68 named destinations out of 1000 (max. 500000)
  171 words of extra memory for PDF output out of 10000 (max. 10000000)
 
