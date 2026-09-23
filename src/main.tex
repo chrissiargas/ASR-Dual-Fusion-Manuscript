@@ -24,7 +24,7 @@
 \title{Unifying Speech and Language Through Continuous Dual-Fusion for Medium-Resource Languages: The Cases of Hungarian and Greek}
 
 \name{\textit{Christos Siargkas},
-    \textit{Nikos Ellinas },
+    \textit{Nikos Ellinas},
     \textit{Georgios Vamvoukakis},
     \textit{Georgios Dimitriou}, \\
     \textit{Alexandra Vioni},
@@ -38,14 +38,14 @@
     \textit{Pirros Tsiakoulis},
     \textit{Aimilios Chalamandaris}}
 
-\address{Samsung}
+\address{Samsung Electronics}
 
 \begin{document}
 \ninept
 \maketitle
 
 \begin{abstract}
-    In medium-resource languages like Hungarian and Greek, Automatic Speech Recognition (ASR) suffers from scarce paired acoustic data, whereas abundant text data can be leveraged via Large Language Model (LLM) priors. To compensate for this acoustic deficit, we propose a Dual-Fusion architecture that conditions ASR decoding on continuous acoustic information at both the prompt level and inside the LLM's intermediate layers. Our model bridges a frozen acoustic encoder with pre-trained LLMs via both prompt-level embeddings and deep, continuous-space alignment across multiple intermediate decoder layers. To actively control the semantic-acoustic trade-off, our methodology introduces asymmetric downsampling to preserve fine phonetic boundaries, multi-layer gated cross-attention, attention-weighted layer-wise fusion of the acoustic encoder's hidden states, and target text perturbation. Evaluated on diverse Hungarian and Greek datasets, our framework reduces Word Error Rate (WER) compared to both standalone acoustic decoders and acoustic-linguistic models like VoxKrikri, demonstrating consistent performance improvements across both languages.
+    In medium-resource languages like Hungarian and Greek, Automatic Speech Recognition (ASR) suffers from scarce paired acoustic data, whereas abundant text data can be leveraged via Large Language Model (LLM) priors. To compensate for this acoustic deficit, we propose a Dual-Fusion architecture that conditions ASR decoding on continuous acoustic information at both the prompt level and inside the LLM's intermediate layers. Our model bridges a frozen acoustic encoder with pre-trained LLMs via both prompt-level embeddings and deep, continuous-space alignment across multiple intermediate decoder layers. To actively control the semantic-acoustic trade-off, our methodology introduces asymmetric downsampling to preserve fine phonetic boundaries, multi-layer gated cross-attention, attention-weighted layer-wise fusion of the acoustic encoder's hidden states, and target text perturbation. Evaluated on diverse Hungarian and Greek datasets, our framework reduces Word Error Rate (WER)  against Whisper-large-v3 on nine of ten test sets and is competitive with the acoustic-linguistic VoxKrikri on Greek, demonstrating consistent performance improvements across both languages.
 \end{abstract}
 
 \begin{keywords}
@@ -60,7 +60,7 @@
     \hspace{-0.8cm}
     \includegraphics[height=115pt,keepaspectratio]{dual_fusion_architecture.drawio}
     \caption{
-    Proposed Continuous Dual-Fusion ASR architecture: The speech instances are first processed by a frozen Whisper acoustic encoder, producing the acoustic hidden states $\boldsymbol{H} = \{\boldsymbol{h}_1 \dots \boldsymbol{h}_N\}$. These states are processed in parallel by two distinct fusion pathways to bridge them into the LLM embedding space. In the prompt-level path, the final acoustic state ($\boldsymbol{h}_N$) with dimensions $T \times D$ is downsampled by a factor of $k = 5$ and projected into the LLM space as prefix tokens of dimension $\lfloor{ T / 5}\rfloor \times D_{LLM}$ via an MLP adapter. Concurrently, in the cross-attention path, all encoder states $\boldsymbol{H}$ undergo Layer-Wise Fusion and Conv1D downsampling by a finer factor of $k = 3$ to form a phonetically rich acoustic representations of dimension $\lfloor{ T / 3}\rfloor \times D$. The LoRA-adapted LLM decoder follows; it processes the concatenated acoustic and text tokens, while aggregating the continuous acoustic representations via Gated Cross-Attention modules at multiple intermediate layers.
+    Proposed Continuous Dual-Fusion ASR architecture: The speech instances are first processed by a frozen Whisper acoustic encoder, producing the acoustic hidden states $\boldsymbol{H} = \{\boldsymbol{h}_1 \dots \boldsymbol{h}_N\}$. These states are processed in parallel by two distinct fusion pathways to bridge them into the LLM embedding space. In the prompt-level path, the final acoustic state ($\boldsymbol{h}_N$) with dimensions $T \times D$ is downsampled by a factor of $k = 5$ and projected into the LLM space as prefix tokens of dimension $\lfloor{ T / 5}\rfloor \times D_{LLM}$ via an MLP adapter. Concurrently, in the cross-attention path, all encoder states $\boldsymbol{H}$ undergo Layer-Wise Fusion and Conv1D downsampling by a finer factor of $k = 3$ to form phonetically rich acoustic representations of dimension $\lfloor{ T / 3}\rfloor \times D$. The LoRA-adapted LLM decoder follows; it processes the concatenated acoustic and text tokens, while aggregating the continuous acoustic representations via Gated Cross-Attention modules at multiple intermediate layers.
     }
     \label{fig:model_architecture}
 \end{figure*}
@@ -122,81 +122,84 @@ In Stage 1, the LLM and Whisper encoder are fully frozen and only the bridge net
 
 \subsection{Corpora}
 \noindent
-We evaluate on diverse corpora spanning formal, read, and spontaneous registers. For Greek, the datasets include Common Voice~\cite{ardila2020commonvoice}, FLEURS~\cite{conneau2022fleurs}, HParl~\cite{paraskevopoulos2023hparl}, TEDx~\cite{salesky2021mtedx}, and Logotypographia~\cite{digalakis2003logotypographia}. For Hungarian, we utilize Common Voice~\cite{ardila2020commonvoice}, FLEURS~\cite{conneau2022fleurs}, Speech Massive~\cite{lee2024speechmassive}, VoxPopuli~\cite{wang2021voxpopuli}, and Yodas~\cite{koluguri2025granaryspeechrecognitiontranslation}. The Hungarian training mixture also incorporates ``Internal-1'' and ``Internal-2'', comprising approx.\ 1,500 hours of conversational telephony and broadcast data. Each corpus is split into train/validation/test using the creators' official splits where provided, otherwise a 60/20/20 leave-subject-out split by speaker ID so that no speaker overlaps train and test. Because dataset sizes vary by orders of magnitude, batches are built via interleaved sampling across corpora (temperature $T = 1.2$).
-
-%TODO which datasets are manually split?
+We evaluate on diverse corpora spanning formal, read, and spontaneous registers. For Greek, the datasets include Common Voice~\cite{ardila2020commonvoice}, FLEURS~\cite{conneau2022fleurs}, HParl~\cite{paraskevopoulos2023hparl}, TEDx~\cite{salesky2021mtedx}, and Logotypographia~\cite{digalakis2003logotypographia}. For Hungarian, we utilize Common Voice~\cite{ardila2020commonvoice}, FLEURS~\cite{conneau2022fleurs}, Speech Massive~\cite{lee2024speechmassive}, VoxPopuli~\cite{wang2021voxpopuli}, and Yodas~\cite{li2023yodas} as distributed in Granary~\cite{koluguri2025granaryspeechrecognitiontranslation}. The Hungarian training mixture also incorporates ``Internal-1'' and ``Internal-2'', comprising approx.\ 1,500 hours of conversational telephony and broadcast data. Each corpus is split into train/validation/test using the creators' official splits where provided, otherwise a 60/20/20 leave-subject-out split by speaker ID so that no speaker overlaps train and test. Because dataset sizes vary by orders of magnitude, batches are built via interleaved sampling across corpora (temperature $T = 1.2$).
+% TODO: name the corpora that use our 60/20/20 speaker split, report the test/train sentence-overlap count from the manifest metadata.
 
 \subsection{Preprocessing, Prompting, and Inference}
 \noindent
-Transcripts are normalized by removing non-spoken artifacts, such as speaker-tags and transcriber annotations, and by standardizing punctuation. We actively retain punctuation; this ensures the model learns to predict punctuation and syntactic boundaries directly from the acoustic signal and linguistic context. Utterances are conditioned on transcription style prompts: \texttt{[PROMPT\_CLEAN]} (clean transcript), \texttt{[PROMPT\_VERBATIM]} (word-for-word disfluencies retained), or \texttt{[PROMPT\_FORMAL]} (strictly formal). Each corpus is assigned the style matching its reference-transcription convention, applied consistently at training and inference. During training, Whisper's input features are also regularized with SpecAugment~\cite{park2019specaugment}. Inference uses beam search (beam width of 4) with a repetition penalty of $1.15$ and a 150-token maximum constraint.
+Transcripts are normalized by removing non-spoken artifacts, such as speaker-tags and transcriber annotations, and by standardizing punctuation. We actively retain punctuation; this ensures the model learns to predict punctuation and syntactic boundaries directly from the acoustic signal and linguistic context. Utterances are conditioned on transcription style prompts: \texttt{[PROMPT\_CLEAN]} (clean transcript), \texttt{[PROMPT\_VERBATIM]} (word-for-word disfluencies retained), or \texttt{[PROMPT\_FORMAL]} (strictly formal). Each corpus is assigned the style matching its reference-transcription convention, applied consistently at training and inference. During training, Whisper's input features are also regularized with SpecAugment~\cite{park2019specaugment}. Inference uses beam search (beam width of 4) with a repetition penalty of $1.15$, a 150-token maximum constraint and $4$-gram blocking. We additionally report Whisper with its own recommended decoding (temperature fallback).
 
 \section{Results and Discussion}
-We report Word Error Rate (WER), Character Error Rate (CER), and Normalized WER (N-WER), i.e.\ the error rate after stripping punctuation and casing (using Whisper's \texttt{BasicTextNormalizer}).
-Because standard WER penalizes missing punctuation, strong results on both metrics indicate the architecture actively predicts syntactic boundaries from acoustic prosody.
-However, we use N-WER as the primary comparative metric to align with the VoxKrikri baseline.
+We report WER as the primary metric. References and hypotheses of all systems pass through the same normalizer: NFKC, removal of speaker tags and bracketed annotations, and Whisper's \texttt{BasicTextNormalizer} (lowercasing, punctuation and symbol removal). We also report CER on the same text and WER$_p$, a case-insensitive WER in which punctuation marks count as separate tokens.
 
 \subsection{Greek: Comparison Against Baselines}
 \noindent
-Table~\ref{tab:greek} compares against VoxKrikri (full-context, offline mode) and Whisper-v3 across five public Greek corpora. Our model outperforms VoxKrikri on Common Voice ($\Delta=-6.9$), HParl ($\Delta=-4.8$), and Logotypographia ($\Delta=-2.8$). FLEURS is the one corpus where VoxKrikri's simpler single-injection design wins ($\Delta=+0.6$), which qualitative analysis suggests stems from FLEURS's dense foreign named entities that our LLM's linguistic prior occasionally mis-transliterates (Section~\ref{subsec:limitations}).
+Table~\ref{tab:greek} compares our model with Whisper-large-v3 under the protocol of Section~\ref{sec:experiments} and with the published VoxKrikri results (full-context, offline mode). We improve over Whisper on four of the five corpora, by $2.2$ (FLEURS) to $10.7$ (Common Voice) absolute WER points; on TEDx, the most spontaneous corpus, the two systems are statistically indistinguishable ($\Delta=-0.3$), consistent with the ``copy editor'' behaviour analysed in Section~\ref{subsec:limitations}. Our rates are also below the VoxKrikri numbers on the four corpora it reports, although those are obtained under a different normalization and are indicative only.
+% TODO: if the Common Voice train/test sentence-overlap check is clean, add one sentence here; if not, report the overlap and the WER on unseen sentences.
+% TODO: mention that we take the results for vox-krikri from their paper
 
 \begin{table}[h]
 \centering
-\caption{Greek ASR performance. n-WER (\%) is the primary metric for comparison against baselines. Standard WER and CER are provided for our model for completeness.}
+\caption{Greek ASR performance. WER (\%) is the primary metric; WER$_p$ additionally scores punctuation and CER is the character error rate, both reported for our model for completeness.}
 \label{tab:greek}
 \footnotesize
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{l | c c c | c c}
 \toprule
-& \multicolumn{3}{c|}{\textbf{n-WER (\%)}} & \multicolumn{2}{c}{\textbf{Ours}} \\
+& \multicolumn{3}{c|}{\textbf{WER (\%)}} & \multicolumn{2}{c}{\textbf{Ours}} \\
 \cmidrule(lr){2-4} \cmidrule(lr){5-6}
-\textbf{Dataset} & \textbf{Ours} & \textbf{Vox (full)} & \textbf{Whisper} & \textbf{WER} & \textbf{CER} \\
+\textbf{Dataset} & \textbf{Ours} & \textbf{Whisper} & \textbf{Vox}$^\dagger$ & \textbf{WER$_p$} & \textbf{CER} \\
 \midrule
-Common Voice(19h)~\cite{ardila2020commonvoice}            & \textbf{5.1} & 12.0 & 14.0 & 7.3 & 3.0 \\
-FLEURS(12h)~\cite{conneau2022fleurs}                      & 9.9 & \textbf{9.3} & 11.0 & 10.9 & 4.8 \\
-HParl(120h)~\cite{paraskevopoulos2023hparl}               & \textbf{8.2} & 13.0 & 17.0 & 8.2 & 4.7 \\
-Logotypographia(61h)~\cite{digalakis2003logotypographia}  & \textbf{6.6} & 9.4   & 10.9 & 6.6 & 2.0 \\
-TEDx(29h)~\cite{salesky2021mtedx}                         & 13.9 & --    & \textbf{12.3}  & 17.8 & 9.5 \\
+Common Voice~\cite{ardila2020commonvoice}                      & \textbf{3.1} & 13.8 & 12.0 & 4.5 & 1.2 \\
+FLEURS~\cite{conneau2022fleurs}                                & \textbf{8.5} & 10.7 & 9.3 & 9.7 & 3.7 \\
+HParl~\cite{paraskevopoulos2023hparl}                          & \textbf{7.2} & 15.9 & 13.0 & 7.2 & 4.1 \\
+Logotypographia$^\ddagger$~\cite{digalakis2003logotypographia} & \textbf{5.6} & 10.3 & 9.4 & 5.6 & 1.6 \\
+TEDx~\cite{salesky2021mtedx}                                   & \textbf{11.1} & 11.4 & -- & 15.7 & 5.5 \\
 \bottomrule
 \end{tabular}%
 }
+\\
+\vspace{4pt}
+\raggedright \scriptsize
+$^\dagger$~Taken from~\cite{damianos2025voxkrikriunifyingspeechlanguage}, which uses its own text normalization; indicative only.
+$^\ddagger$~References are transcribed without accents, so accents are removed from both systems' output before scoring.
 \end{table}
-
-%TODO fix results
-%TODO check fair normalization baseline
+% TODO mention here that vox-krikri results are taken from their paper and are not reproducible
 
 \subsection{Hungarian: Comparison Against Baselines}
 \noindent
-Table~\ref{tab:hung} compares against Whisper large-v3 across all five public Hungarian corpora. We deliberately exclude the Whisper-Hu~\cite{trendency2024whisperlargev3hu} finetuned model due to disclosed test-set contamination on VoxPopuli, Common Voice, and Speech-Massive. Our model outperforms Whisper on four of five comparable corpora, with the largest margin on Common Voice ($\Delta = -7.1$). The sole loss is Yodas ($11.3$ vs.\ $6.2$, $\Delta = +5.1$), which likely reflects reference provenance rather than a real shortfall: Yodas transcripts are pseudo-labeled by faster-whisper-large-v3 itself, so comparing us to zero-shot Whisper on Whisper-generated references is close to self-referential evaluation.
-To isolate architectural gains from the proprietary data advantage, Table~\ref{tab:public_data_ablation} reports a variant trained exclusively on public corpora. Without the 1,500-hour internal dataset the model degrades only marginally, retaining a strict advantage over Whisper on the four comparable datasets and confirming the efficacy of Dual-Fusion.
+Table~\ref{tab:hung} compares against Whisper-large-v3 across the five public Hungarian corpora. We deliberately exclude the Whisper-Hu~\cite{trendency2024whisperlargev3hu} finetuned model due to disclosed test-set contamination on VoxPopuli, Common Voice, and Speech-Massive. Our model outperforms Whisper on four of five corpora, by $5.0$ (FLEURS) to $7.4$ (Common Voice) absolute WER points. The sole loss is Yodas ($11.3$ vs.\ $7.1$), which reflects reference provenance rather than a real shortfall: Yodas transcripts are pseudo-labeled by Whisper-large-v3 itself, so this row scores us against the system that produced the references.
+To isolate architectural gains from the proprietary data advantage, Table~\ref{tab:public_data_ablation} reports a variant trained exclusively on public corpora; without the 1,500-hour internal dataset the model degrades by $1.0$--$2.8$ points but keeps its advantage over Whisper on the four comparable corpora.
 
 \begin{table}[h]
     \centering
-    \caption{Hungarian ASR performance. n-WER (\%) is the primary metric for comparison against the baseline. Standard WER and CER are provided for our model for completeness.}
+    \caption{Hungarian ASR performance. Metrics and evaluation protocol as in Table~\ref{tab:greek};}
     \label{tab:hung}
     \footnotesize
     \resizebox{\columnwidth}{!}{%
     \begin{tabular}{l | c c | c c}
         \toprule
-        & \multicolumn{2}{c|}{\textbf{n-WER (\%)}} & \multicolumn{2}{c}{\textbf{Ours}} \\
+        & \multicolumn{2}{c|}{\textbf{WER (\%)}} & \multicolumn{2}{c}{\textbf{Ours}} \\
         \cmidrule(lr){2-3} \cmidrule(lr){4-5}
-        \textbf{Dataset} & \textbf{Ours} & \textbf{Whisper} & \textbf{WER} & \textbf{CER} \\
+        \textbf{Dataset} & \textbf{Ours} & \textbf{Whisper} & \textbf{WER$_p$} & \textbf{CER} \\
         \midrule
-        Common Voice(126h)~\cite{ardila2020commonvoice} & \textbf{6.0} & 13.1 & 7.4 & 2.0 \\
-        FLEURS(14h)~\cite{conneau2022fleurs}            & \textbf{7.7} & 13.4 & 10.4 & 2.9 \\
-        Speech Massive(6h)~\cite{lee2024speechmassive}  & \textbf{14.1} & 19.4 & 32.2 & 8.1 \\
-        VoxPopuli(60h)~\cite{wang2021voxpopuli}         & \textbf{7.8} & 14.5 & 10.0 & 4.9 \\
-        Yodas(114h)~\cite{li2023yodas}                  & 11.3 & \textbf{6.2} & 14.0 & 7.1 \\
+        Common Voice~\cite{ardila2020commonvoice}  & \textbf{5.9} & 13.3 & 6.2 & 1.4 \\
+        FLEURS~\cite{conneau2022fleurs}            & \textbf{8.0} & 13.0 & 10.0 & 2.1 \\
+        Speech-MASSIVE~\cite{lee2024speechmassive} & \textbf{13.9} & 20.1 & 24.6 & 3.2 \\
+        VoxPopuli~\cite{wang2021voxpopuli}         & \textbf{7.6} & 14.1 & 8.9 & 4.0 \\
+        Yodas$^\dagger$~\cite{li2023yodas}         & 11.3 & \textbf{7.1} & 12.6 & 6.1 \\
         \bottomrule
     \end{tabular}%
     }
+    \\
+    \vspace{4pt}
+    \raggedright \scriptsize
+    $^\dagger$~Yodas references are pseudo-labels produced by Whisper-large-v3 itself, so this row scores us against the system that generated the references.
 \end{table}
-
-%TODO check fair normalization baseline
-%TODO fix the table captions about $\Delta$
 
 \begin{table}[h]
     \centering
-    \caption{Impact of proprietary data on Hungarian n-WER (\%). \textbf{Ours (Full)} uses all data, while \textbf{Ours (Public)} is trained exclusively on public corpora. $\Delta$ indicates the absolute error rate degradation when internal datasets are removed.}
+    \caption{Impact of proprietary data on Hungarian WER (\%). \textbf{Ours (Full)} uses all data, while \textbf{Ours (Public)} is trained exclusively on public corpora. $\Delta$ indicates the absolute error rate degradation when internal datasets are removed.}
     \label{tab:public_data_ablation}
     \footnotesize
     \resizebox{\columnwidth}{!}{%
@@ -271,11 +274,13 @@ To substantiate the depth specialization hypothesized in Section~\ref{subsec:mul
 \subsection{Limitations}
 \label{subsec:limitations}
 \noindent
-Our qualitative analysis surfaces a recurring failure mode: because the fused LLM carries strong linguistic priors, it sometimes acts less like a verbatim transcriber and more like a ``copy editor'', silently dropping hesitation markers and disfluencies, normalizing colloquial contractions, occasionally completing thoughts on abruptly cut-off audio, and mis-transliterating foreign proper names. This inflates WER on disfluency-rich, verbatim-style corpora even when the output is fluent and faithful in meaning. Our evaluation is also limited to two medium-resource languages and a single frozen encoder (Whisper-large-v3); generalization to other languages, encoders, or truly low-resource settings remains untested.
+Our qualitative analysis surfaces a recurring failure mode: because the fused LLM carries strong linguistic priors, it sometimes acts less like a verbatim transcriber and more like a ``copy editor'', silently dropping hesitation markers and disfluencies, normalizing colloquial contractions, occasionally completing thoughts on abruptly cut-off audio, and mis-transliterating foreign proper names. This inflates WER on disfluency-rich, verbatim-style corpora even when the output is fluent and faithful in meaning. Our evaluation is also limited to two medium-resource languages and a single frozen encoder (Whisper-large-v3); generalization to other languages, encoders, or truly low-resource settings remains untested. Two further caveats concern the protocol: the style prompt encodes corpus identity, which is not available in the wild; and comparisons with published numbers depend on text normalization, which differs across papers.
+%todo the style tags use corpus identity at test time; Common Voice text overlap, if found.
+
 
 \section{Conclusion \& Future Work}
 \noindent
-We presented a Continuous Dual-Fusion architecture coupling a frozen Whisper encoder with language-specialized LLMs for medium-resource ASR in Hungarian and Greek, using multi-layer gated cross-attention, layer-wise acoustic pooling, and text perturbation to ground generation in the acoustic signal without discarding linguistic priors. Across five Hungarian and five Greek corpora, our model reduces WER over standalone Whisper on all but one Hungarian corpus (Table~\ref{tab:hung}) and beats the strongest published baseline, VoxKrikri, on three of four comparable Greek corpora (Table~\ref{tab:greek}).
+We presented a Continuous Dual-Fusion architecture coupling a frozen Whisper encoder with language-specialized LLMs for medium-resource ASR in Hungarian and Greek, using multi-layer gated cross-attention, layer-wise acoustic pooling, and text perturbation to ground generation in the acoustic signal without discarding linguistic priors. Across five Hungarian and five Greek corpora scored under one protocol, our model reduces WER over standalone Whisper on \textbf{9} of 10 test sets (Tables~\ref{tab:greek} and~\ref{tab:hung}) and compares favourably with the published VoxKrikri results on Greek.
 
 We plan to: (i) add speech from same-family or phonetically similar languages (Finnish, German for Hungarian; Spanish, Cypriot Greek for Greek) and high-resource English to strengthen shared representations, confining non-target data to the encoder/cross-attention pathway and monitoring code-switching leakage; (ii) use TTS-synthesized utterances to expose the linguistic side to target-language words absent from our corpora, and (iii) explore an audio-forecasting head predicting the next downsampled acoustic embedding from the LLM's hidden states at injected audio-token positions, which could serve as transcript-free self-supervised pretraining over unlabeled speech, directly addressing the paired-data scarcity motivating this work.
 

@@ -195,6 +195,13 @@ Changhan Wang, Morgane Riviere, Ann Lee, Anne Wu, Chaitanya Talnikar, Daniel
   Natural Language Processing (Volume 1: Long Papers)}, Online, Aug. 2021, pp.
   993--1003, Association for Computational Linguistics.
 
+\bibitem{li2023yodas}
+Xinjian Li, Shinnosuke Takamichi, Takaaki Saeki, William Chen, Sayaka Shiota,
+  and Shinji Watanabe,
+\newblock ``Yodas: Youtube-oriented dataset for audio and speech,''
+\newblock in {\em 2023 IEEE Automatic Speech Recognition and Understanding
+  Workshop (ASRU)}. IEEE, 2023, pp. 1--8.
+
 \bibitem{koluguri2025granaryspeechrecognitiontranslation}
 Nithin~Rao Koluguri, Monica Sekoyan, George Zelenfroynd, Sasha Meister,
   Shuoyang Ding, Sofia Kostandian, He~Huang, Nikolay Karpov, Jagadeesh Balam,
@@ -212,12 +219,5 @@ Daniel~S. Park, William Chan, Yu~Zhang, Chung-Cheng Chiu, Barret Zoph, Ekin~D.
 \bibitem{trendency2024whisperlargev3hu}
 {Trendency},
 \newblock ``whisper-large-v3-hu (trendency),'' Hugging Face model card, 2024.
-
-\bibitem{li2023yodas}
-Xinjian Li, Shinnosuke Takamichi, Takaaki Saeki, William Chen, Sayaka Shiota,
-  and Shinji Watanabe,
-\newblock ``Yodas: Youtube-oriented dataset for audio and speech,''
-\newblock in {\em 2023 IEEE Automatic Speech Recognition and Understanding
-  Workshop (ASRU)}. IEEE, 2023, pp. 1--8.
 
 \end{thebibliography}
