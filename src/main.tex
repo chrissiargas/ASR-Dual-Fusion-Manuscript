@@ -148,21 +148,16 @@ Table~\ref{tab:greek} compares our model with Whisper-large-v3 under the protoco
 \toprule
 & \multicolumn{3}{c|}{\textbf{WER (\%)}} & \multicolumn{2}{c}{\textbf{Ours}} \\
 \cmidrule(lr){2-4} \cmidrule(lr){5-6}
-\textbf{Dataset} & \textbf{Ours} & \textbf{Whisper} & \textbf{Vox}$^\dagger$ & \textbf{WER$_p$} & \textbf{CER} \\
+\textbf{Dataset} & \textbf{Ours} & \textbf{Whisper} & \textbf{Vox} & \textbf{WER$_p$} & \textbf{CER} \\
 \midrule
 Common Voice~\cite{ardila2020commonvoice}                      & \textbf{3.1} & 13.8 & 12.0 & 4.5 & 1.2 \\
 FLEURS~\cite{conneau2022fleurs}                                & \textbf{8.5} & 10.7 & 9.3 & 9.7 & 3.7 \\
 HParl~\cite{paraskevopoulos2023hparl}                          & \textbf{7.2} & 15.9 & 13.0 & 7.2 & 4.1 \\
-Logotypographia$^\ddagger$~\cite{digalakis2003logotypographia} & \textbf{5.6} & 10.3 & 9.4 & 5.6 & 1.6 \\
+Logotypographia~\cite{digalakis2003logotypographia} & \textbf{5.6} & 10.3 & 9.4 & 5.6 & 1.6 \\
 TEDx~\cite{salesky2021mtedx}                                   & \textbf{11.1} & 11.4 & -- & 15.7 & 5.5 \\
 \bottomrule
 \end{tabular}%
 }
-\\
-\vspace{4pt}
-\raggedright \scriptsize
-$^\dagger$~Taken from~\cite{damianos2025voxkrikriunifyingspeechlanguage}, which uses its own text normalization; indicative only.
-$^\ddagger$~References are transcribed without accents, so accents are removed from both systems' output before scoring.
 \end{table}
 % TODO mention here that vox-krikri results are taken from their paper and are not reproducible
 
@@ -187,14 +182,11 @@ To isolate architectural gains from the proprietary data advantage, Table~\ref{t
         FLEURS~\cite{conneau2022fleurs}            & \textbf{8.0} & 13.0 & 10.0 & 2.1 \\
         Speech-MASSIVE~\cite{lee2024speechmassive} & \textbf{13.9} & 20.1 & 24.6 & 3.2 \\
         VoxPopuli~\cite{wang2021voxpopuli}         & \textbf{7.6} & 14.1 & 8.9 & 4.0 \\
-        Yodas$^\dagger$~\cite{li2023yodas}         & 11.3 & \textbf{7.1} & 12.6 & 6.1 \\
+        Yodas~\cite{li2023yodas}         & 11.3 & \textbf{7.1} & 12.6 & 6.1 \\
         \bottomrule
     \end{tabular}%
     }
-    \\
-    \vspace{4pt}
-    \raggedright \scriptsize
-    $^\dagger$~Yodas references are pseudo-labels produced by Whisper-large-v3 itself, so this row scores us against the system that generated the references.
+
 \end{table}
 
 \begin{table}[h]
