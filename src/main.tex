@@ -163,7 +163,7 @@ TEDx~\cite{salesky2021mtedx}                                   & \textbf{11.1} &
 \subsection{Hungarian: Comparison Against Baselines}
 \noindent
 Table~\ref{tab:hung} compares against Whisper-large-v3 across the five public Hungarian corpora. We deliberately exclude the Whisper-Hu~\cite{trendency2024whisperlargev3hu} finetuned model due to disclosed test-set contamination on VoxPopuli, Common Voice, and Speech-Massive. Our model outperforms Whisper on four of five corpora, by $5.0$ (FLEURS) to $7.4$ (Common Voice) absolute WER points. The sole loss is Yodas ($11.3$ vs.\ $7.1$), which reflects reference provenance rather than a real shortfall: Yodas transcripts are pseudo-labeled by Whisper-large-v3 itself, so this row scores us against the system that produced the references.
-To isolate architectural gains from the proprietary data advantage, Table~\ref{tab:public_data_ablation} reports a variant trained exclusively on public corpora; without the 1,500-hour internal dataset the model degrades by $1.0$--$2.8$ points but keeps its advantage over Whisper on the four comparable corpora.
+To isolate architectural gains from the proprietary data advantage, Table~\ref{tab:public_data_ablation} reports a variant trained exclusively on public corpora; without the 1,500-hour internal dataset the model degrades by $0.6$--$2.2$ points but keeps its advantage over Whisper on the four comparable corpora.
 
 \begin{table}[h]
     \centering
@@ -198,8 +198,8 @@ To isolate architectural gains from the proprietary data advantage, Table~\ref{t
         \toprule
         \textbf{Model Configuration} & \textbf{CV} & \textbf{FL} & \textbf{SM} & \textbf{VP} & \textbf{YD} \\
         \midrule
-        Ours (Public) & -- & 9.5 & 16.1 & 8.2 & -- \\
-        $\Delta$ vs.\ Ours (Full) & \textcolor{loss}{--} & \textcolor{loss}{+1.5} & \textcolor{loss}{+2.2} & \textcolor{loss}{+0.6} & \textcolor{loss}{--} \\
+        Ours (Public) & 6.6 & 9.5 & 16.1 & 8.2 & 12.5 \\
+        $\Delta$ vs.\ Ours (Full) & \textcolor{loss}{+0.7} & \textcolor{loss}{+1.5} & \textcolor{loss}{+2.2} & \textcolor{loss}{+0.6} & \textcolor{loss}{+1.2} \\
         \bottomrule
     \end{tabular}%
     }

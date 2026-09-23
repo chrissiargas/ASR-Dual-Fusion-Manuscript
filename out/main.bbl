@@ -69,14 +69,6 @@ Andrew Rouditchenko, Yuan Gong, Samuel Thomas, Leonid Karlinsky, Hilde Kuehne,
 \newblock ``{Whisper-Flamingo}: Integrating visual features into {Whisper} for
   audio-visual speech recognition and translation,'' 2024.
 
-\bibitem{zhang2024llamaadapter}
-Renrui Zhang, Jiaming Han, Chris Liu, Aojun Zhou, Pan Lu, Yu~Qiao, Hongsheng
-  Li, and Peng Gao,
-\newblock ``{LLaMA-Adapter}: Efficient fine-tuning of large language models
-  with zero-initialized attention,''
-\newblock in {\em Proc. International Conference on Learning Representations
-  (ICLR)}, 2024.
-
 \bibitem{damianos2025voxkrikriunifyingspeechlanguage}
 Dimitrios Damianos, Leon Voukoutis, Georgios Paraskevopoulos, and Vassilis
   Katsouros,
